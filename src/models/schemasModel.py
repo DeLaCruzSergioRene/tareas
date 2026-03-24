@@ -3,7 +3,7 @@ from typing import Optional
 from datetime import date, time
 
 class UsuarioSchema(BaseModel):
-    nombre: str = Field(min_length=3, max_lenght=200)
+    nombre: str = Field(min_length=3, max_lenght=100)
     email: EmailStr
     password: str = Field(min_lenght=8)
     
