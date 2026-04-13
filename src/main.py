@@ -1,8 +1,8 @@
 import flet as ft
-from src.controllers.UserController import AuthController
-from src.controllers.TareaController import TareaController
-from src.views.LoginView import LoginView
-from src.views.Dashboard import DashboardView
+from controllers.UserController import AuthController
+from controllers.TareaController import TareaController
+from views.LoginView import LoginView
+from views.Dashboard import DashboardView
 
 def main(page: ft.Page):
     # Instanciamos los controladores una sola vez
