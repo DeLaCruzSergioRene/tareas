@@ -26,13 +26,17 @@ def start(page: ft.Page):
         
     page.update()
     
+    def view_pop(e):
+        if len(page.views)>1:
+            page.views.pop()
+            top_view = page.views(-1)
+            page.go(top_view.route)
+            
     page.on_route_change = route_change
-    # Forzamos la navegación inicial
     page.go("/")
-    
+
 def main():
-    # Ejecución de la app
     ft.app(target=start)
-    
+
 if __name__ == "__main__":
     main()
