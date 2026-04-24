@@ -24,38 +24,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tareas`
+-- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `tareas` (
-  `ID_tarea` int(11) NOT NULL,
-  `ID_usuario` int(11) NOT NULL,
-  `Nombre_tarea` varchar(256) NOT NULL,
-  `completada` tinyint(4) NOT NULL,
-  `tipo` enum('a','a','a','') NOT NULL,
-  `Estado` enum('a','a','a','','') NOT NULL,
-  `prioridad` enum('a','a','a','') NOT NULL,
-  `descripcion` varchar(256) NOT NULL,
-  `fecha_lim` date NOT NULL,
-  `fecha_com` date NOT NULL
+CREATE TABLE `usuario` (
+  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(256) NOT NULL,
+  `email` varchar(256) NOT NULL UNIQUE,
+  `password` varchar(256) NOT NULL,
+  `fecha_registro` date,
+  `activo` tinyint(4) DEFAULT 1,
+  PRIMARY KEY (`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Estructura de tabla para la tabla `tareas`
 --
 
-CREATE TABLE `usuarios` (
-  `ID_usuario` int(11) NOT NULL,
-  `Nombre` varchar(256) NOT NULL,
-  `apellido` varchar(256) NOT NULL,
-  `contra` varchar(256) NOT NULL,
-  `correo` varchar(256) NOT NULL,
-  `fecha_regis` date NOT NULL,
-  `ultimo_acce` date NOT NULL,
-  `activo` tinyint(4) NOT NULL,
-  `foto_per` varchar(265) NOT NULL
+CREATE TABLE `tareas` (
+  `id_tarea` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
+  `titulo` varchar(256) NOT NULL,
+  `descripcion` varchar(256),
+  `prioridad` enum('baja','media','alta') NOT NULL DEFAULT 'media',
+  `clasificacion` varchar(100),
+  `estado` enum('pendiente','en_progreso','completada') NOT NULL DEFAULT 'pendiente',
+  `fecha_limite` date,
+  PRIMARY KEY (`id_tarea`),
+  FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -63,16 +61,27 @@ CREATE TABLE `usuarios` (
 --
 
 --
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id_usuario`);
+
+--
 -- Indices de la tabla `tareas`
 --
 ALTER TABLE `tareas`
-  ADD PRIMARY KEY (`ID_tarea`);
+  ADD PRIMARY KEY (`id_tarea`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Indices de la tabla `usuarios`
+-- Restricciones para tablas volcadas
 --
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`ID_usuario`);
+
+--
+-- Filtros para la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
